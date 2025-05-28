@@ -6,11 +6,10 @@ import InputField from "./component/Input-field/InputField.jsx";
 
 function App() {
 
-    const counterValue = useState(0);
-
-    function resetFruits() {
-        setStrawberries(0);
-    }
+    const [strawberryCount, setStrawberry] = useState(0);
+    const [bananaCount, setBanana] = useState(0);
+    const [appleCount, setApple] = useState(0);
+    const [kiwiCount, setKiwi] = useState(0);
 
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -25,95 +24,134 @@ function App() {
         e.preventDefault();
     }
 
+    function resetFruits() {
+        setStrawberry(0);
+        setBanana(0);
+        setApple(0);
+        setKiwi(0);
+    }
+
     return (
     <>
         <h1>Fruitmand bezorgservice</h1>
         <FruitBlock
             label="Aarbeien"
+            fruitCount={strawberryCount}
+            setFruitCount={setStrawberry}
         />
         <FruitBlock
             label="Bananen"
+            fruitCount={bananaCount}
+            setFruitCount={setBanana}
         />
         <FruitBlock
             label="Appels"
+            fruitCount={appleCount}
+            setFruitCount={setApple}
         />
         <FruitBlock
             label="Kiwi's"
+            fruitCount={kiwiCount}
+            setFruitCount={setKiwi}
         />
         <Button
+            type="reset"
             label="Reset"
             onClick={resetFruits}
         />
+        <hr></hr>
         <form onSubmit={handleSubmit}>
             <section>
-                <InputField name="firstname" label="Voornaam" inputType="text" value={firstname} changeHandler={setFirstname} />
+            <InputField
+                label="Voornaam"
+                name="firstname"
+                inputType="text"
+                value={firstname}
+                changeHandler={setFirstname}/>
             </section>
             <section>
-                <InputField name="lastname" label="Achternaam" inputType="text" value={lastname} changeHandler={setLastname} />
+            <InputField
+                label="Achternaam"
+                name="lastname"
+                inputType="text"
+                value={lastname}
+                changeHandler={setLastname}/>
             </section>
             <section>
-                <InputField name="age" label="Leeftijd" inputType="number" value={age} changeHandler={setAge} />
+            <InputField
+                label="Leeftijd"
+                name="age"
+                inputType="number"
+                value={age}
+                changeHandler={setAge}/>
             </section>
             <section>
-                <InputField name="zipcode" label="Postcode" inputType="text" value={zipcode} changeHandler={setZipcode} />
+            <InputField
+                label="Postcode"
+                name="zipcode"
+                inputType="text"
+                value={zipcode}
+                changeHandler={setZipcode}/>
+            </section>
+            <label>Bezorgfrequentie</label>
+            <section>
+            <select
+                name="deliveryFrequency"
+                id="deliveryFrequency-field"
+                value={deliveryFrequency}
+                onChange={(e) => toggleDeliveryFrequency(e.target.value)}>
+                <option value="week">Iedere week</option>
+                <option value="other-week">Om de week</option>
+                <option value="other-month">Iedere maand</option>
+            </select>
             </section>
             <section>
-                <label htmlFor="delivery-field">Bezorgfrequentie</label>
-            </section>
-            <section>
-                <select
-                    name="delivery" id="delivery-field"
-                    value={deliveryFrequency}
-                    onChange={(e) => toggleDeliveryFrequency(e.target.value)}
-                >
-                    <option value="week">Iedere week</option>
-                    <option value="two-week">Om de week</option>
-                    <option value="month">Iedere maand</option>
-                </select>
-            </section>
-            <section>
-                <input
-                    type="radio"
+                <InputField
+                    label="Overdag"
+                    name="deliveryTimeslot"
+                    inputType="radio"
                     value="daytime"
-                    name="timeslot"
-                    id="timeslot-field-daytime"
-                    checked={deliveryTimeslot === 'daytime'}
-                    onChange={(e) => toggleDeliveryTimeslot(e.target.value)}
-                />
-                <label htmlFor="timeslot-field-daytime">Overdag</label>
-                <input
-                    type="radio"
-                    value="evening"
-                    checked={deliveryTimeslot === 'evening'}
-                    onChange={(e) => toggleDeliveryTimeslot(e.target.value)}
-                    name="timeslot"
-                    id="timeslot-field-evening"
-                />
-                <label htmlFor="timeslot-field-evening">Avond</label>
+                    changeHandler={toggleDeliveryTimeslot}/>
+                <InputField
+                    label="'s Avonds"
+                    name="deliveryTimeslot"
+                    inputType="radio"
+                    value="nighttime"
+                    changeHandler={toggleDeliveryTimeslot}/>
             </section>
             <section>
-                <label htmlFor="remark-field">Opmerking</label>
+                <InputField
+                    label="Postcode"
+                    name="zipcode"
+                    inputType="text"
+                    value={zipcode}
+                    changeHandler={setZipcode}/>
+            </section>
+            <label>
+                Opmerking
+            </label>
+            <section>
                 <textarea
                     name="remark"
                     id="remark-field"
                     value={remark}
-                    onChange={(e) => setRemark(e.target.value)}
-                    rows={6}
-                    cols={40}
-                />
+                    onChange={(e) => setRemark(e.target.value)}>
+                </textarea>
             </section>
             <section>
-                <input
-                    type="checkbox"
-                    name="agree"
-                    id="agree-field"
-                    value={agreeTerms}
-                    onChange={(e) => toggleAgreeTerms(e.target.checked)}
-                />
-                <label htmlFor="agree-field">Ik ga akkoord met de voorwaarden</label>
+            <InputField
+                label="Ik ga akkoord met de voorwaarden"
+                name="agree"
+                inputType="checkbox"
+                value={agreeTerms}
+                changeHandler={toggleAgreeTerms}/>
             </section>
-
-            <Button type="submit">Verzend</Button>
+            <section>
+            <Button
+                type="submit"
+                label="Verzenden"
+            />
+            </section>
         </form>
     </>
   )
